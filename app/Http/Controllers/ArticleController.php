@@ -9,6 +9,7 @@ use App\Models\User;
 
 class ArticleController extends Controller
 {
+
     public function index(){
 
         $title = '';

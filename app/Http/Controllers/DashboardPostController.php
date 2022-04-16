@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 
 class DashboardPostController extends Controller
@@ -14,7 +15,9 @@ class DashboardPostController extends Controller
      */
     public function index()
     {
-        return view('dashboard.articles.index');
+        return view('dashboard.articles.index', [
+            'articles' => Article::where('user_id', auth()->user()->id)->get()
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class DashboardPostController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.articles.create');
     }
 
     /**
@@ -46,7 +49,9 @@ class DashboardPostController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        return view('dashboard.articles.show', [
+            'article' => $article
+        ]);
     }
 
     /**
@@ -81,5 +86,11 @@ class DashboardPostController extends Controller
     public function destroy(Article $article)
     {
         //
+    }
+
+    public function checkSlug(Request $request)
+    {
+        $slug = SlugService::createSlug(Article::class, 'slug', $request->title);
+        return response()->json(['slug' => $slug]);
     }
 }
