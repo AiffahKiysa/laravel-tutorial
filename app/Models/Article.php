@@ -53,7 +53,7 @@ class Article extends Model
     public function sluggable(): array
     {
         return [
-            'sug' => [
+            'slug' => [
                 'source' => 'title'
             ]
         ];
